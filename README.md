@@ -1,7 +1,10 @@
 art-maker
 ---------
 
-Making images is hard. But, we need images for badges, avatars, icons, etc.
+Drawing is hard, <strike>let's go shopping</strike> make collages.
+
+Making images is difficult for people who can't draw very well. But, we need
+images for badges, avatars, icons, etc.
 
 This is a tool intended to ease image making for people who are overwhelmed by
 drawing apps. This is done by making collages of other images already made by
