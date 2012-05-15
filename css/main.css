@@ -17,7 +17,7 @@
     width: 33%; margin: 0; padding: 0; height: 450px; overflow: scroll; }
 .art-maker .art-choices li { float: right; list-style: none; margin: 0.125em; }
 .art-maker .art-choices li a { padding: 0; border: 1px solid #aaa; display: block; }
-.art-maker .art-choices li a img { }
+.art-maker .art-choices li a img { width: 50px; height: 50px }
 
 .art-maker .layer-set { position: absolute; top: 0.25em; left: 500px; 
     width: 325px; border: 1px solid #999; margin: 0; padding: 0; height: 450px;
