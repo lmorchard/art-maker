@@ -1,6 +1,10 @@
 TODO
 ----
 
+* Simultaneous previews of several sizes
+    * 512x512 editor
+    * 256x256, 128x128, 64x64 previews
+
 * Need clip art sources
     * http://openclipart.org/
     * http://thenounproject.com/
@@ -21,3 +25,13 @@ TODO
     * Can I use an input type=file?
     * Encode as Base64 and submit?
     * http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
+
+* Snap to grid
+    * Require modifier key?
+
+* Keyboard controls
+    * Cursor arrows to move layer
+    * Shift-arrows for fine movement?
+    * Shift-left/right to rotate?
+    * Shift-up/down to scale?
+    * Control-up/down for opacity?
