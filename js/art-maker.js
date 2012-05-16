@@ -4,6 +4,8 @@ var ArtMaker = {
     Models: {}
 };
 
+var noop_sync = function () {};
+
 // ## ArtMaker.Model.Layer
 // Representation of a collage layer
 ArtMaker.Models.Layer = Backbone.Model.extend({
@@ -17,14 +19,14 @@ ArtMaker.Models.Layer = Backbone.Model.extend({
         opacity: 1.0,
         rotation: 0.0
     },
-    sync: function () {}
+    sync: noop_sync
 });
 
 // ## ArtMaker.Model.LayerCollection
 ArtMaker.Models.LayerCollection = Backbone.Collection.extend({
     model: ArtMaker.Models.Layer,
     url: '/layers',
-    sync: function () {}
+    sync: noop_sync
 });
 
 // ## ArtMaker.Main
@@ -36,11 +38,60 @@ ArtMaker.Main = Backbone.View.extend({
         ],
     },
     initialize: function (options) {
+        var $this = this;
         this.options = _.defaults(options, this.defaults);
         
         this.layers = new ArtMaker.Models.LayerCollection();
         this.layers.on('add', function (layer) {
             this.trigger('select', layer);
+        });
+
+        var serializing = false;
+        var serialize = function (layer) {
+            if (serializing) { return; }
+            serializing = true;
+            setTimeout(function () {
+                var data = $this.$('canvas.main')[0].toDataURL('image/png');
+                $('.output .data-url').attr('href', data);
+                serializing = false;
+            }, 500);
+        };
+        _(['add', 'remove', 'change']).each(function (ev_name) {
+            $this.layers.on(ev_name, serialize);
+        });
+
+        this.$('button.to-imgur').click(function () {
+            var canvas = $this.$('canvas.main')[0];
+            // see: http://29a.ch/2011/9/11/uploading-from-html5-canvas-to-imgur-data-uri
+            try {
+                var img = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+            } catch(e) {
+                var img = canvas.toDataURL().split(',')[1];
+            }
+            // open the popup in the click handler so it will not be blocked
+            var w = window.open();
+            w.document.write('Uploading...');
+            // upload to imgur using jquery/CORS
+            // https://developer.mozilla.org/En/HTTP_access_control
+            $.ajax({
+                url: 'http://api.imgur.com/2/upload.json',
+                type: 'POST',
+                data: {
+                    type: 'base64',
+                    // get your key here, quick and fast http://imgur.com/register/api_anon
+                    key: 'e64443e503f39cd821f23b9cea8b6ab0',
+                    name: (new Date().getTime()) + '.jpg',
+                    title: 'test title',
+                    caption: 'test caption',
+                    image: img
+                },
+                dataType: 'json'
+            }).success(function(data) {
+                w.location.href = data['upload']['links']['imgur_page'];
+            }).error(function() {
+                alert('Could not reach api.imgur.com. Sorry :(');
+                w.close();
+            });
         });
 
         this.art_selector = new ArtMaker.Views.ArtSelector({
@@ -75,36 +126,28 @@ ArtMaker.Views.ArtSelector = Backbone.View.extend({
             $.get(base_url + '/index.txt', function (data, status, resp) {
                 var data = resp.responseText;
                 var lines = data.match(/^.*((\r\n|\n|\r)|$)/gm);
+                // HACK: This is a self-recursive thingy that downloads and
+                // adds art selectors in batches, rather than tie the browser
+                // up for the whole time.
                 (function () {
                     var cb = arguments.callee,
                         batch = lines.splice(0, 10);
+                    if (!batch.length) { return; }
                     _.each(batch, function (name) {
                         if (!name) { return; }
                         $this.addArtChoice(name, base_url + '/' + name);
                     });
-                    if (lines.length) { setTimeout(cb, 0.1); }
+                    setTimeout(cb, 1);
                 })();
-                /*
-                _(lines).each(function (name) {
-                    if (!name) { return; }
-                    $this.addArtChoice(name, base_url + '/' + name);
-                });
-                */
             });
         });
     },
     addArtChoice: function (name, img_url) {
+        // Inject the art selector item into the page.
         var img_li = $('<li><a class="choice" href=""><img src=""></a></li>');
         img_li
             .find('a').attr('name', name).end()
-            .find('img').attr('src', img_url);
-
-        var orig_img = new Image();
-        orig_img.src = img_url;
-        img_li.find('img')
-            .attr('data-original-width', orig_img.width)
-            .attr('data-original-height', orig_img.height);
-
+            .find('img').attr('src', img_url).end();
         this.$el.append(img_li);
     },
     handleArtChoice: function (target) {
@@ -287,7 +330,8 @@ ArtMaker.Views.Canvas = Backbone.View.extend({
 
     render: function () {
         var $this = this;
-        this.canvas[0].width = this.canvas[0].width;
+        var canvas_el = this.canvas[0];
+        canvas_el.width = canvas_el.width;
         var ctx = this.ctx;
         ctx.save();
         // Set origin dead center in the canvas.
@@ -305,8 +349,9 @@ ArtMaker.Views.Canvas = Backbone.View.extend({
         var $this = this;
         var img = layer.get('img');
         var ctx = this.ctx;
-        var width = img.attr('data-original-width'),
-            height = img.attr('data-original-height');
+        // HACK: Hardcoding these dimensions for now, but need to work out how
+        // to get these from the source images. Other attempts have been buggy.
+        var width = 256, height = 256;
         ctx.save();
         ctx.translate(layer.get('left'), layer.get('top'));
         ctx.scale(layer.get('scale'), layer.get('scale'));

@@ -1,5 +1,5 @@
 .art-maker { position: relative; border: 1px solid #999; border-radius: 8px;
-    margin: 1em; padding: 0.125em; height: 450px }
+    margin: 1em; padding: 0.125em; }
 
 .art-maker .template { display: none; }
 
@@ -7,18 +7,18 @@
     border: 1px solid #ddd; margin: 45px; }
 .art-maker .canvas-ui .ui { background: #ddd; opacity: 1; border-radius: 4px;
     width: 32px; height: 32px; position: absolute; }
-.art-maker .canvas-ui .ui-rotate  { left: 50%; margin-left: -16px; top: 0px; margin-top: -34px; }
+.art-maker .canvas-ui .ui-rotate  { left: 50%; margin-left: -16px; bottom: 0px; margin-bottom: -34px; }
 .art-maker .canvas-ui .ui-scale   { right: 0px; margin-right: -34px; top: 50%; margin-top: -16px; }
 .art-maker .canvas-ui .ui-opacity { left: 0px; margin-left: -34px; top: 50%; margin-top: -16px;}
 
 .art-maker canvas { }
 
 .art-maker .art-choices { position: absolute; top: 0.25em; right: 0.25em;
-    width: 33%; margin: 0; padding: 0; height: 450px; overflow: scroll; }
+    width: 33%; margin: 0; padding: 0; height: 450px; overflow: auto; }
 .art-maker .art-choices li { float: right; list-style: none; margin: 0.125em; }
 .art-maker .art-choices li a { padding: 0; border: 1px solid #aaa; display: block; }
 .art-maker .art-choices li a img { width: 50px; height: 50px }
 
 .art-maker .layer-set { position: absolute; top: 0.25em; left: 500px; 
     width: 325px; border: 1px solid #999; margin: 0; padding: 0; height: 450px;
-    overflow: scroll; }
+    overflow: auto; }
