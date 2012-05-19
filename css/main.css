@@ -5,11 +5,32 @@
 
 .art-maker .canvas-ui { position: relative; width: 384px; height: 384px; 
     border: 1px solid #ddd; margin: 45px; }
-.art-maker .canvas-ui .ui { background: #ddd; opacity: 1; border-radius: 4px;
+.art-maker .canvas-ui .ui { opacity: 1; border-radius: 4px;
     width: 32px; height: 32px; position: absolute; }
-.art-maker .canvas-ui .ui-rotate  { left: 50%; margin-left: -16px; bottom: 0px; margin-bottom: -34px; }
-.art-maker .canvas-ui .ui-scale   { right: 0px; margin-right: -34px; top: 50%; margin-top: -16px; }
-.art-maker .canvas-ui .ui-opacity { left: 0px; margin-left: -34px; top: 50%; margin-top: -16px;}
+.art-maker .canvas-ui .ui img { width: 32px; height: 32px; background-color: #aaa; 
+    border-radius: 4px; display: block }
+.art-maker .canvas-ui .ui-rotate  { width: 100%; left: 0; margin-bottom: -36px; bottom: 0px; }
+.art-maker .canvas-ui .ui-scale   { height: 100%; right: 0px; margin-right: -36px; top: 0; }
+.art-maker .canvas-ui .ui-opacity { height: 100%; left: 0px; margin-left: -36px; top: 0;}
+
+.art-maker .canvas-ui .thumbwheel-horizontal { 
+    background-color: #ddd;
+    background-image: -moz-linear-gradient(-45deg,
+        #eee 25%, #ddd 25%, #ddd 50%,
+        #eee 50%, #eee 75%, #ddd 75%, #ddd);
+    background-size: 25px 25px;
+}
+.art-maker .canvas-ui .thumbwheel-horizontal img { display: block; position: relative;
+    left: 50%; margin-left: -16px; } 
+.art-maker .canvas-ui .thumbwheel-vertical { 
+    background-color: #eee;
+    background-image: -moz-linear-gradient(-45deg,
+        #eee 25%, #ddd 25%, #ddd 50%,
+        #eee 50%, #eee 75%, #ddd 75%, #ddd);
+    background-size: 25px 25px;
+}
+.art-maker .canvas-ui .thumbwheel-vertical img { display: block; position: relative; 
+    top: 50%; margin-top: -16px; } 
 
 .art-maker canvas { }
 

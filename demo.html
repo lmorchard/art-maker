@@ -7,16 +7,16 @@
     <body>
         <h1>art-maker</h1>
         <div id="intro">
-            <p>Click on clip art. Drag the layer around the canvas. Drag the
-            tools surrounding the canvas. 
+            <p>Click on clip art. Drag the layer around the canvas. Drag on the
+                tool strips surrounding the canvas. 
             <a href="https://github.com/lmorchard/art-maker">Fork me on github!</a></p>
         </div>
         <div class="art-maker" id="art1">
             <div class="canvas-ui">
                 <!-- <img class="ui-move ui" src="img/transform-move.png" /> -->
-                <img class="ui-rotate ui" src="img/transform-rotate.png" />
-                <img class="ui-scale ui" src="img/transform-scale.png" />
-                <img class="ui-opacity ui" src="img/color-gradient.png" />
+                <div class="ui-rotate ui thumbwheel-horizontal"><img src="img/transform-rotate.png" /></div>
+                <div class="ui-scale ui thumbwheel-vertical"><img src="img/transform-scale.png" /></div>
+                <div class="ui-opacity ui thumbwheel-vertical"><img src="img/color-gradient.png" /></div>
                 <canvas class="main" width="384" height="384"></canvas>
             </div>
             <ul class="layer-set"></ul>

@@ -286,6 +286,11 @@ ArtMaker.Views.Canvas = Backbone.View.extend({
                 var original_layer = $this.original_layer;
                 var layer = $this.selected_layer;
 
+                var bg_size = 25;
+                var bg_pos = (d_drag / 2) % bg_size;
+                drag_el.css('background-size', bg_size + 'px ' + bg_size + 'px');
+                drag_el.css('background-position', bg_pos + 'px ' + bg_pos + 'px');
+
                 if (drag_el.is('.ui-move') || drag_el.is('.canvas-ui')) {
                     layer.set({
                         left: original_layer.get('left') + curr_x,
@@ -293,8 +298,8 @@ ArtMaker.Views.Canvas = Backbone.View.extend({
                     });
                 }
                 if (drag_el.is('.ui-rotate')) {
-                    var delta = (d_drag * $this.options.rotation_factor),
-                        rotation = original_layer.get('rotation') + delta;
+                    var delta = (d_drag * $this.options.rotation_factor);
+                    var rotation = original_layer.get('rotation') + delta;
                     layer.set({ rotation: rotation });
                 }
                 if (drag_el.is('.ui-scale')) {
@@ -305,7 +310,7 @@ ArtMaker.Views.Canvas = Backbone.View.extend({
                 }
                 if (drag_el.is('.ui-opacity')) {
                     var delta = (d_drag * $this.options.opacity_factor);
-                    var opacity = 1.0 - Math.abs(delta);
+                    var opacity = (original_layer.get('opacity') + delta);
                     if (opacity < 0) { opacity = 0; }
                     if (opacity > 1) { opacity = 1; }
                     layer.set({ opacity: opacity });
