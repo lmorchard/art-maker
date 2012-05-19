@@ -21,6 +21,8 @@ TODO
     * Encode as Base64 and submit?
     * http://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
 
+* Use s3-iframe-proxy to upload to S3
+
 * Simultaneous previews of several sizes
     * 512x512 editor
     * 256x256, 128x128, 64x64 previews
